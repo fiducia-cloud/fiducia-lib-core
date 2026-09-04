@@ -1,17 +1,36 @@
 {
-  "schemaVersion": "ores.platform-integrations.v1",
+  "schemaVersion": "ores.platform-integrations.v2",
   "organization": "fiducia-cloud",
   "repository": "fiducia-lib-core",
   "policy": "exact_shared_packages_only_no_local_substitutes",
-  "providers": {
+  "activeServerProfile": {
+    "interfaces": {
+      "zedPackage": "fiducia-cloud/fiducia-interfaces@^0.1.0",
+      "cargoRepository": "https://github.com/fiducia-cloud/fiducia-interfaces.git",
+      "cargoRevision": "51773bf0df86bbfa96979ce7a69944543e2c1b33",
+      "status": "compiled_and_declared_for_zed"
+    },
+    "middleware": {
+      "zedPackage": "oresoftware/ores-middleware@^0.1.0",
+      "cargoRepository": "https://github.com/ORESoftware/ores-middleware.git",
+      "cargoRevision": "3d0f6f56051fe9f9303e703477c5ad591d402b26",
+      "status": "compiled_and_declared_for_zed"
+    },
+    "rateLimit": {
+      "zedPackage": "ores-rate-limit/ores-rl-lib-core@^0.2.0",
+      "cargoRepository": "https://github.com/ores-rate-limit/ores-rl-lib-core.git",
+      "cargoRevision": "31df606d26280611e2d2d684328a804644eb4255",
+      "status": "compiled_and_declared_for_zed"
+    }
+  },
+  "remainingProviders": {
     "flags": "flags-2-env/flags-2-env",
     "auth": "shared-auth/shared-auth-clients",
-    "middleware": "oresoftware/ores-middleware",
     "telemetry": "ores-otel/ores-lib-core",
-    "rateLimit": "ores-rate-limit/ores-rl-lib-core",
     "sync": "opto-sync/opto-sync-clients",
     "secrets": "oresoftware/ores-sops",
     "migrations": "declarative-migrations/declmig-lib-core"
   },
-  "status": "STOPPED_FOR_EVALUATION_until_zed_install_frozen_pins_each_provider"
+  "zedLockStatus": "package_dependencies_declared_lock_generation_required_before_release",
+  "status": "ACTIVE_FOR_FOUR_RUST_SERVER_PROFILE"
 }
