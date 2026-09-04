@@ -26,3 +26,34 @@ jobs:
           if git grep -nE '(ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|lin_api_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----)' -- . ':!.github/workflows/ci.yml'; then
             echo "credential-like string committed" >&2; exit 1
           fi
+  zed-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install checksum-pinned zed CLI
+        env:
+          ZED_INSTALL_DIR: ${{ runner.temp }}/zed-bin
+          ZED_VERSION: v0.3.0
+          ZED_ASSET: zed-x86_64-unknown-linux-musl.tar.gz
+          # Official v0.3.0 release asset: 11,170,187 bytes, published 2026-09-04.
+          ZED_SHA256: e380240c96242ab3b29e0e9d14c95ba946d086f20f0732e34d0e5cf47513efc7
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/$ZED_ASSET"
+          curl -fsSL --retry 3 --proto '=https' --tlsv1.2 \
+            "https://github.com/zed-pkg/zed-cli/releases/download/$ZED_VERSION/$ZED_ASSET" -o "$archive"
+          actual_sha256="$(sha256sum "$archive" | awk '{print $1}')"
+          printf 'zed archive sha256=%s\n' "$actual_sha256"
+          test "$actual_sha256" = "$ZED_SHA256"
+          mkdir -p "$ZED_INSTALL_DIR"
+          tar -xzf "$archive" -C "$ZED_INSTALL_DIR"
+          test -x "$ZED_INSTALL_DIR/zed"
+          "$ZED_INSTALL_DIR/zed" --version | grep -F '0.3.0'
+          echo "$ZED_INSTALL_DIR" >> "$GITHUB_PATH"
+      - name: Validate the manifest and the schema-v2 task plan
+        run: |
+          set -euo pipefail
+          zed validate
+          zed task list --all
+          zed task graph check
+          zed task --json run check --dry-run > /dev/null

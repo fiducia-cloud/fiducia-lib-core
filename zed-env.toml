@@ -1,0 +1,22 @@
+# Schema-v2 environment plan consumed by `zed task` (zed-cli >= 0.3.0).
+# `.zpkg.toml` `[scripts]` accepts only `test`; every other project task lives here.
+# Discover with `zed task list`, inspect with `zed task info <task>`, run with `zed task run <task>`.
+schema = 2
+
+[tasks.format]
+description = "Check formatting"
+run = ["cargo fmt --all -- --check"]
+
+[tasks.lint]
+description = "Lint with warnings denied"
+run = ["cargo clippy --all-targets --all-features -- -D warnings"]
+
+[tasks.test]
+description = "Run the test suite"
+run = ["cargo test --all-targets --all-features"]
+
+[tasks.check]
+description = "Everything CI enforces, in dependency order"
+aliases = ["ci"]
+depends = ["format", "lint", "test"]
+run = ["echo all checks passed"]
