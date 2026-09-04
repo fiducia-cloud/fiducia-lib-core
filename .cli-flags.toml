@@ -1,0 +1,13 @@
+# flags-2-env declaration: the single source for CLI flags <-> environment variables.
+# Consumed by every Fiducia runtime through fiducia_lib_core::config::RuntimeConfig.
+[flags]
+runtime-target = { env = "FIDUCIA_RUNTIME_TARGET", default = "server", doc = "server | edge | lambda | desktop | cli" }
+service-role   = { env = "FIDUCIA_SERVICE_ROLE",   default = "api",    doc = "api | web | admin-api | admin-web | worker" }
+bind-addr      = { env = "FIDUCIA_BIND_ADDR",      default = "127.0.0.1:8080" }
+public-base-url = { env = "FIDUCIA_PUBLIC_BASE_URL", default = "http://localhost:8080", public = true }
+auth-issuer    = { env = "FIDUCIA_AUTH_ISSUER",    public = true, doc = "shared-auth issuer URL" }
+auth-audience  = { env = "FIDUCIA_AUTH_AUDIENCE",  public = true }
+auth-jwks-url  = { env = "FIDUCIA_AUTH_JWKS_URL",  public = true }
+database-url   = { env = "FIDUCIA_DATABASE_URL",   secret = true, doc = "postgres:// URL; server tier only" }
+otel-endpoint  = { env = "FIDUCIA_OTEL_EXPORTER_ENDPOINT", default = "" }
+rate-limit-mode = { env = "FIDUCIA_RATE_LIMIT_MODE", default = "fail-closed", doc = "fail-closed | fail-open (dev only)" }

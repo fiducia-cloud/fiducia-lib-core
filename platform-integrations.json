@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "ores.platform-integrations.v1",
+  "organization": "fiducia-cloud",
+  "repository": "fiducia-lib-core",
+  "policy": "exact_shared_packages_only_no_local_substitutes",
+  "providers": {
+    "flags": "flags-2-env/flags-2-env",
+    "auth": "shared-auth/shared-auth-clients",
+    "middleware": "oresoftware/ores-middleware",
+    "telemetry": "ores-otel/ores-lib-core",
+    "rateLimit": "ores-rate-limit/ores-rl-lib-core",
+    "sync": "opto-sync/opto-sync-clients",
+    "secrets": "oresoftware/ores-sops",
+    "migrations": "declarative-migrations/declmig-lib-core"
+  },
+  "status": "STOPPED_FOR_EVALUATION_until_zed_install_frozen_pins_each_provider"
+}

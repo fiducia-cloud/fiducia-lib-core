@@ -1,0 +1,11 @@
+/target/
+**/target/
+.vendor/.zed/
+.zed/
+.env
+.env.*
+!.env.example
+env/
+.direnv/
+tmp/
+*.log
