@@ -1,6 +1,6 @@
 [package]
 name = "fiducia-lib-core"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Shared Fiducia client, server, edge, and isomorphic policy and domain library"
 repository = "https://github.com/fiducia-cloud/fiducia-lib-core"
@@ -15,12 +15,23 @@ default = ["isomorph"]
 # Each folder is a feature so browsers/edge workers never compile server-only code.
 isomorph = []
 client = ["isomorph"]
-server = ["isomorph"]
+server = [
+  "isomorph",
+  "dep:axum",
+  "dep:fiducia-interfaces",
+  "dep:ores-middleware",
+  "dep:ores-rl-lib-core",
+  "dep:tracing",
+]
 edge = ["isomorph"]
 full = ["client", "server", "edge"]
 
 [dependencies]
-# Shared providers are added only after `zed install --frozen` pins them (see platform-integrations.json).
+axum = { version = "0.8", optional = true }
+fiducia-interfaces = { git = "https://github.com/fiducia-cloud/fiducia-interfaces.git", rev = "51773bf0df86bbfa96979ce7a69944543e2c1b33", package = "fiducia-interfaces", optional = true }
+ores-middleware = { git = "https://github.com/ORESoftware/ores-middleware.git", rev = "3d0f6f56051fe9f9303e703477c5ad591d402b26", package = "ores-middleware", path = "src/rust", default-features = false, features = ["axum"], optional = true }
+ores-rl-lib-core = { git = "https://github.com/ores-rate-limit/ores-rl-lib-core.git", rev = "31df606d26280611e2d2d684328a804644eb4255", optional = true }
+tracing = { version = "0.1", optional = true }
 
 [lints.rust]
 unsafe_code = "forbid"
