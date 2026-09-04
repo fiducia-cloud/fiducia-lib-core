@@ -29,7 +29,7 @@ full = ["client", "server", "edge"]
 [dependencies]
 axum = { version = "0.8", optional = true }
 fiducia-interfaces = { git = "https://github.com/fiducia-cloud/fiducia-interfaces.git", rev = "51773bf0df86bbfa96979ce7a69944543e2c1b33", package = "fiducia-interfaces", optional = true }
-ores-middleware = { git = "https://github.com/ORESoftware/ores-middleware.git", rev = "3d0f6f56051fe9f9303e703477c5ad591d402b26", package = "ores-middleware", path = "src/rust", default-features = false, features = ["axum"], optional = true }
+ores-middleware = { git = "https://github.com/ORESoftware/ores-middleware.git", rev = "3d0f6f56051fe9f9303e703477c5ad591d402b26", package = "ores-middleware", default-features = false, features = ["axum"], optional = true }
 ores-rl-lib-core = { git = "https://github.com/ores-rate-limit/ores-rl-lib-core.git", rev = "31df606d26280611e2d2d684328a804644eb4255", optional = true }
 tracing = { version = "0.1", optional = true }
 
