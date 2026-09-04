@@ -12,15 +12,15 @@ use std::{
 };
 
 use axum::{
-    Router,
     extract::{Request, State},
-    http::{HeaderValue, StatusCode, header::RETRY_AFTER},
+    http::{header::RETRY_AFTER, HeaderValue, StatusCode},
     middleware::{self, Next},
     response::{IntoResponse, Response},
+    Router,
 };
-use ores_middleware::{RuntimeEnvironment, default_config, descriptor};
+use ores_middleware::{default_config, descriptor, RuntimeEnvironment};
 use ores_rl_lib_core::{
-    ConsistencyMode, Decision, LimitPolicy, LimitState, TransitionError, transition,
+    transition, ConsistencyMode, Decision, LimitPolicy, LimitState, TransitionError,
 };
 
 use crate::config::ServiceRole;
@@ -209,8 +209,17 @@ mod tests {
     #[test]
     fn shared_limiter_enforces_ores_rate_limit_transition() {
         let limiter = SharedRateLimiter::new(LimitPolicy::fixed_window(2, 1_000));
-        assert!(matches!(limiter.decide_at(0, 1).unwrap(), Decision::Allow { .. }));
-        assert!(matches!(limiter.decide_at(1, 1).unwrap(), Decision::Allow { .. }));
-        assert!(matches!(limiter.decide_at(2, 1).unwrap(), Decision::Deny { .. }));
+        assert!(matches!(
+            limiter.decide_at(0, 1).unwrap(),
+            Decision::Allow { .. }
+        ));
+        assert!(matches!(
+            limiter.decide_at(1, 1).unwrap(),
+            Decision::Allow { .. }
+        ));
+        assert!(matches!(
+            limiter.decide_at(2, 1).unwrap(),
+            Decision::Deny { .. }
+        ));
     }
 }
