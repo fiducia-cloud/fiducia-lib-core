@@ -1,0 +1,26 @@
+[package]
+name = "fiducia-lib-core"
+version = "0.1.0"
+edition = "2021"
+description = "Shared Fiducia client, server, edge, and isomorphic policy and domain library"
+repository = "https://github.com/fiducia-cloud/fiducia-lib-core"
+publish = false
+
+[lib]
+name = "fiducia_lib_core"
+path = "src/lib.rs"
+
+[features]
+default = ["isomorph"]
+# Each folder is a feature so browsers/edge workers never compile server-only code.
+isomorph = []
+client = ["isomorph"]
+server = ["isomorph"]
+edge = ["isomorph"]
+full = ["client", "server", "edge"]
+
+[dependencies]
+# Shared providers are added only after `zed install --frozen` pins them (see platform-integrations.json).
+
+[lints.rust]
+unsafe_code = "forbid"
