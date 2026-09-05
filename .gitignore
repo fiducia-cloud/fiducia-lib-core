@@ -12,3 +12,7 @@ tmp/
 
 # Local temporary directories and Git worktrees (DEN-3956).
 temp/
+# Explicit worktree paths are retained for tools that inspect path rules
+# literally instead of matching the parent directory pattern.
+tmp/worktrees/
+temp/worktrees/
