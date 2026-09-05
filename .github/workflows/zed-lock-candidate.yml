@@ -1,0 +1,60 @@
+name: zed-lock-candidate
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/zed-lock-candidate.yml'
+      - '.zpkg.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zed-lock-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  resolve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install checksum-pinned Zed CLI
+        shell: bash
+        env:
+          ZED_VERSION: 0.3.0
+          ZED_SHA256: f87576bc289e43ed647902527e7be70566445d2f1fd11249f067ab35547d4b8a
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/zed.tar.gz"
+          unpack="$RUNNER_TEMP/zed-unpack"
+          mkdir -p "$unpack"
+          curl --fail --location --silent --show-error \
+            "https://github.com/zed-pkg/zed-cli/releases/download/v${ZED_VERSION}/zed-x86_64-unknown-linux-gnu.tar.gz" \
+            --output "$archive"
+          echo "${ZED_SHA256}  ${archive}" | sha256sum --check --strict
+          tar -xzf "$archive" -C "$unpack"
+          binary=$(find "$unpack" -type f -name zed -print -quit)
+          test -n "$binary"
+          install -m 0755 "$binary" "$RUNNER_TEMP/zed"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+      - name: Resolve and materialize direct dependencies
+        run: |
+          set -euo pipefail
+          zed validate
+          zed install
+          zed validate --require-lock
+          test -f .zpkg.lock
+          test -f zed_modules/fiducia-cloud/fiducia-interfaces/Cargo.toml
+          test -f zed_modules/oresoftware/ores-middleware/src/rust/Cargo.toml
+          test -f zed_modules/ores-rate-limit/ores-rl-lib-core/Cargo.toml
+      - name: Upload candidate lock
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: zpkg-lock-${{ github.sha }}
+          path: .zpkg.lock
+          if-no-files-found: error
+          retention-days: 7

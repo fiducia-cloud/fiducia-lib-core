@@ -1,11 +1,17 @@
-//! Server-only primitives (api/web/admin servers, workers, lambdas). Has access to `PrivateConfig`.
+//! Server-only primitives for API, web, admin, worker, and lambda binaries.
 //!
-//! Persistence goes through `fiducia-orm-core`; this module never opens a database connection itself.
+//! Persistence goes through `fiducia-orm-core`; this module never opens a
+//! database connection itself. Request lifecycle, interface markers, and
+//! rate-limit policy are centralized here so the four standard servers do not
+//! drift.
+
+pub mod platform;
 
 use crate::config::{RuntimeConfig, ServiceRole};
 
-/// Which of the four web<->api avenues a server may use (see my-ai AGENTS.md):
-/// 1. direct read-only db query, 2. stateless HTTP, 3. stateful TCP, 4. NATS/mq async.
+pub use platform::{install_axum, PlatformError, ServiceProfile, SharedRateLimiter};
+
+/// Which of the four web↔API avenues a server may use.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Avenue {
     DirectReadOnlyDb,
@@ -14,6 +20,7 @@ pub enum Avenue {
     NatsAsync,
 }
 
+#[must_use]
 pub fn allowed_avenues(cfg: &RuntimeConfig) -> &'static [Avenue] {
     match cfg.role {
         ServiceRole::Web | ServiceRole::AdminWeb => &[

@@ -1,16 +1,18 @@
 [package]
 org = "fiducia-cloud"
 name = "fiducia-lib-core"
-version = "0.1.0"
-description = "Shared Fiducia client, server, edge, and isomorphic policy and domain library"
-keywords = ["configuration", "shared-auth", "opto-sync", "opentelemetry", "rate-limit", "zed-pkg"]
+version = "0.2.0"
+description = "Shared Fiducia service policy, configuration, middleware, and rate-limit integration"
+keywords = ["configuration", "middleware", "interfaces", "rate-limit", "zed-pkg"]
 
 [package.repository]
 vcs = "git"
 url = "https://github.com/fiducia-cloud/fiducia-lib-core"
 
 [dependencies]
-# resolved with `zed install --frozen`; add entries only when the registry can pin them immutably
+"fiducia-cloud/fiducia-interfaces" = "^0.1.0"
+"oresoftware/ores-middleware" = "^0.1.0"
+"ores-rate-limit/ores-rl-lib-core" = "^0.2.0"
 
 [publish]
 include_readme = true
