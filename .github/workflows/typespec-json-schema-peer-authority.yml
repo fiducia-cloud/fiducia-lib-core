@@ -1,0 +1,90 @@
+name: TypeSpec and JSON Schema peer-authority parity
+
+on:
+  pull_request:
+    paths:
+      - "test/fixtures/schema-authority-canary/**"
+      - ".github/workflows/typespec-json-schema-peer-authority.yml"
+  push:
+    branches: [main, dev]
+    paths:
+      - "test/fixtures/schema-authority-canary/**"
+      - ".github/workflows/typespec-json-schema-peer-authority.yml"
+  schedule:
+    - cron: "7 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: schema-peer-authority-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Verify checked-out revision
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Validate negative-lane verifier syntax
+        run: node --check test/fixtures/schema-authority-canary/check-stale-mapping-receipt.mjs
+
+      - name: Generate Schema B and compare both peer authorities
+        uses: ORESoftware/typespec-json-schema-validator@8584720715e4e90573535e14b16cb3a24c14ca63
+        with:
+          typespec: test/fixtures/schema-authority-canary/main.tsp
+          schema: test/fixtures/schema-authority-canary/authored.schema.json
+          report: .typespec-json-schema-validator/positive/report.json
+          sarif: .typespec-json-schema-validator/positive/report.sarif
+          output_dir: .typespec-json-schema-validator/positive/generated
+          max_probes: "64"
+
+      - name: Prove a stale declaration mapping stops evaluation
+        id: stale_mapping
+        continue-on-error: true
+        uses: ORESoftware/typespec-json-schema-validator@8584720715e4e90573535e14b16cb3a24c14ca63
+        with:
+          typespec: test/fixtures/schema-authority-canary/main.tsp
+          schema: test/fixtures/schema-authority-canary/authored.schema.json
+          mapping: test/fixtures/schema-authority-canary/stale.mapping.json
+          report: .typespec-json-schema-validator/stale-mapping/report.json
+          sarif: .typespec-json-schema-validator/stale-mapping/report.sarif
+          output_dir: .typespec-json-schema-validator/stale-mapping/generated
+          max_probes: "64"
+
+      - name: Verify attributable stale-mapping evidence and immutable authorities
+        env:
+          STALE_MAPPING_OUTCOME: ${{ steps.stale_mapping.outcome }}
+        run: |
+          set -euo pipefail
+          test "$STALE_MAPPING_OUTCOME" = "failure"
+          node test/fixtures/schema-authority-canary/check-stale-mapping-receipt.mjs \
+            .typespec-json-schema-validator/stale-mapping/report.json
+          git diff --exit-code -- \
+            test/fixtures/schema-authority-canary/main.tsp \
+            test/fixtures/schema-authority-canary/authored.schema.json \
+            test/fixtures/schema-authority-canary/stale.mapping.json
+
+      - name: Retain positive, negative, and generated comparison evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: schema-peer-authority-${{ github.event.repository.name }}-${{ github.run_id }}
+          path: .typespec-json-schema-validator/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30
