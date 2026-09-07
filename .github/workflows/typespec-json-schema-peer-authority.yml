@@ -40,16 +40,46 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
 
+      - name: Validate negative-lane verifier syntax
+        run: node --check test/fixtures/schema-authority-canary/check-stale-mapping-receipt.mjs
+
       - name: Generate Schema B and compare both peer authorities
-        uses: ORESoftware/typespec-json-schema-validator@1048f31781606934b3716aad334e57e815c869dc
+        uses: ORESoftware/typespec-json-schema-validator@8584720715e4e90573535e14b16cb3a24c14ca63
         with:
           typespec: test/fixtures/schema-authority-canary/main.tsp
           schema: test/fixtures/schema-authority-canary/authored.schema.json
-          report: .typespec-json-schema-validator/report.json
-          output_dir: .typespec-json-schema-validator/generated
+          report: .typespec-json-schema-validator/positive/report.json
+          sarif: .typespec-json-schema-validator/positive/report.sarif
+          output_dir: .typespec-json-schema-validator/positive/generated
           max_probes: "64"
 
-      - name: Retain receipt and generated comparison witness
+      - name: Prove a stale declaration mapping stops evaluation
+        id: stale_mapping
+        continue-on-error: true
+        uses: ORESoftware/typespec-json-schema-validator@8584720715e4e90573535e14b16cb3a24c14ca63
+        with:
+          typespec: test/fixtures/schema-authority-canary/main.tsp
+          schema: test/fixtures/schema-authority-canary/authored.schema.json
+          mapping: test/fixtures/schema-authority-canary/stale.mapping.json
+          report: .typespec-json-schema-validator/stale-mapping/report.json
+          sarif: .typespec-json-schema-validator/stale-mapping/report.sarif
+          output_dir: .typespec-json-schema-validator/stale-mapping/generated
+          max_probes: "64"
+
+      - name: Verify attributable stale-mapping evidence and immutable authorities
+        env:
+          STALE_MAPPING_OUTCOME: ${{ steps.stale_mapping.outcome }}
+        run: |
+          set -euo pipefail
+          test "$STALE_MAPPING_OUTCOME" = "failure"
+          node test/fixtures/schema-authority-canary/check-stale-mapping-receipt.mjs \
+            .typespec-json-schema-validator/stale-mapping/report.json
+          git diff --exit-code -- \
+            test/fixtures/schema-authority-canary/main.tsp \
+            test/fixtures/schema-authority-canary/authored.schema.json \
+            test/fixtures/schema-authority-canary/stale.mapping.json
+
+      - name: Retain positive, negative, and generated comparison evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
