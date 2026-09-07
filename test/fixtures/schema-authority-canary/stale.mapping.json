@@ -1,0 +1,15 @@
+{
+  "schema": "ores.typespec-json-schema-validator.mapping/v1",
+  "declarations": [
+    {
+      "typespec": "OreSchemaAuthority.MissingRegistration",
+      "generated": "PeerAuthorityRegistration",
+      "authored": "PeerAuthorityRegistration"
+    }
+  ],
+  "ignore": {
+    "typespec": [],
+    "generated": [],
+    "authored": []
+  }
+}
