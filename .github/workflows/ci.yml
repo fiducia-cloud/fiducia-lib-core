@@ -33,10 +33,13 @@ jobs:
           git config --global \
             url."https://x-access-token:${FLEET_GITHUB_TOKEN}@github.com/".insteadOf \
             'https://github.com/'
-          git ls-remote \
+          dependency_probe="$RUNNER_TEMP/ores-rl-lib-core"
+          git init --quiet "$dependency_probe"
+          git -C "$dependency_probe" fetch --quiet --depth=1 \
             https://github.com/ores-rate-limit/ores-rl-lib-core.git \
-            31df606d26280611e2d2d684328a804644eb4255 \
-            | grep -F 31df606d26280611e2d2d684328a804644eb4255
+            31df606d26280611e2d2d684328a804644eb4255
+          test "$(git -C "$dependency_probe" rev-parse FETCH_HEAD)" = \
+            31df606d26280611e2d2d684328a804644eb4255
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable action
