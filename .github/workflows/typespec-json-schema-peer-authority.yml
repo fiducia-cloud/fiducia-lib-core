@@ -56,13 +56,13 @@ jobs:
           assert.equal(manifest.canonicalAuthorityRepository, "fiducia-cloud/fiducia-interfaces");
           assert.equal(manifest.evidenceScope, "repository-local-canary-only");
           assert.equal(manifest.validator.repository, "ORESoftware/typespec-json-schema-validator");
-          assert.equal(manifest.validator.actionCommit, "c745036456dd80408b83217118b8563edb8f6abd");
+          assert.equal(manifest.validator.actionCommit, "473224b714444c1af9b9cf535a79857c46b81318");
           assert.equal(manifest.validator.contractIrSchema, "ores.typespec-json-schema-validator.contract-ir/v1");
           assert.equal(manifest.authorityModel.precedence, "none");
           assert.equal(manifest.admission.allowFallbackAuthority, false);
           NODE
       - name: Compare peer authorities and emit fresh Contract IR
-        uses: ORESoftware/typespec-json-schema-validator@c745036456dd80408b83217118b8563edb8f6abd
+        uses: ORESoftware/typespec-json-schema-validator@473224b714444c1af9b9cf535a79857c46b81318
         with:
           typespec: test/fixtures/schema-authority-canary/main.tsp
           schema: test/fixtures/schema-authority-canary/authored.schema.json
@@ -72,7 +72,7 @@ jobs:
           output_dir: .typespec-json-schema-validator/positive/generated
           max_probes: "64"
       - name: Verify positive current inputs, receipt, IR identity and complete scope
-        uses: ORESoftware/typespec-json-schema-validator/actions/verify-contract-ir@c745036456dd80408b83217118b8563edb8f6abd
+        uses: ORESoftware/typespec-json-schema-validator/actions/verify-contract-ir@473224b714444c1af9b9cf535a79857c46b81318
         with:
           contract_ir: .typespec-json-schema-validator/positive/contract-ir.json
           report: .typespec-json-schema-validator/positive/report.json
@@ -83,7 +83,7 @@ jobs:
       - name: Prove a stale declaration mapping stops evaluation
         id: stale_mapping
         continue-on-error: true
-        uses: ORESoftware/typespec-json-schema-validator@c745036456dd80408b83217118b8563edb8f6abd
+        uses: ORESoftware/typespec-json-schema-validator@473224b714444c1af9b9cf535a79857c46b81318
         with:
           typespec: test/fixtures/schema-authority-canary/main.tsp
           schema: test/fixtures/schema-authority-canary/authored.schema.json
