@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: 22.16.0
       - name: Require fresh compiler-backed peer parity
-        uses: ORESoftware/typespec-json-schema-validator@2281843126ab644607b11cf8281d84f382d68dfc
+        uses: ORESoftware/typespec-json-schema-validator@d60d0d79d83e075077382623ec9e23a401ab601f
         with:
           typespec: test/fixtures/schema-authority-canary/main.tsp
           schema: test/fixtures/schema-authority-canary/authored.schema.json
@@ -35,7 +35,7 @@ jobs:
           output_dir: .typespec-json-schema-validator/regressions/generated
           max_probes: "64"
       - name: Require positive admission and nineteen canonical refusals
-        uses: ORESoftware/typespec-json-schema-validator/actions/test-consumer-admission@2281843126ab644607b11cf8281d84f382d68dfc
+        uses: ORESoftware/typespec-json-schema-validator/actions/test-consumer-admission@d60d0d79d83e075077382623ec9e23a401ab601f
         with:
           contract_ir: .typespec-json-schema-validator/regressions/contract-ir.json
           report: .typespec-json-schema-validator/regressions/report.json
