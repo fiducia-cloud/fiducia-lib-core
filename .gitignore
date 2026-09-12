@@ -16,3 +16,6 @@ temp/
 # literally instead of matching the parent directory pattern.
 tmp/worktrees/
 temp/worktrees/
+
+# machine-local symlink to ORESoftware/my-ai AGENTS.md; never committed
+.ores/
