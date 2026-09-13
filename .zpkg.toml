@@ -12,6 +12,7 @@ url = "https://github.com/fiducia-cloud/fiducia-lib-core"
 [dependencies]
 "fiducia-cloud/fiducia-interfaces" = "^0.1.0"
 "oresoftware/ores-middleware" = "^0.1.0"
+"oresoftware/next-loggers" = "^0.1.0"
 "ores-rate-limit/ores-rl-lib-core" = "^0.2.0"
 
 [publish]
