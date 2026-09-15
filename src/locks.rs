@@ -51,7 +51,10 @@ mod tests {
 
     #[test]
     fn migrations_and_jobs_have_stable_domains() {
-        assert_eq!(migration("brain").as_str(), "fiducia-cloud/migrations/brain");
+        assert_eq!(
+            migration("brain").as_str(),
+            "fiducia-cloud/migrations/brain"
+        );
         assert_eq!(
             singleton_job("membership-repair").as_str(),
             "fiducia-cloud/jobs/singleton:membership-repair"
