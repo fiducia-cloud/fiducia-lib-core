@@ -2,8 +2,8 @@
 org = "fiducia-cloud"
 name = "fiducia-lib-core"
 version = "0.2.0"
-description = "Shared Fiducia service policy, configuration, middleware, and rate-limit integration"
-keywords = ["configuration", "middleware", "interfaces", "rate-limit", "zed-pkg"]
+description = "Shared Fiducia service policy, configuration, middleware, rate-limit integration, and backend-neutral fenced lock identities"
+keywords = ["configuration", "middleware", "interfaces", "rate-limit", "locks", "leases", "zed-pkg"]
 
 [package.repository]
 vcs = "git"
@@ -13,6 +13,7 @@ url = "https://github.com/fiducia-cloud/fiducia-lib-core"
 "fiducia-cloud/fiducia-interfaces" = "^0.1.0"
 "oresoftware/ores-middleware" = "^0.1.0"
 "ores-rate-limit/ores-rl-lib-core" = "^0.2.0"
+"oresoftware/ores-locks-and-leases" = "=0.1.1"
 
 [publish]
 include_readme = true
