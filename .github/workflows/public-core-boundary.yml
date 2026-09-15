@@ -5,14 +5,14 @@ on:
     paths:
       - 'Cargo.toml'
       - 'Cargo.lock'
-      - 'src/**'
+      - 'src/locks.rs'
       - '.github/workflows/public-core-boundary.yml'
 
 permissions:
   contents: read
 
 jobs:
-  public-core:
+  lock-facade:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -29,11 +29,35 @@ jobs:
         uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30
         with:
           components: rustfmt,clippy
-      - name: Verify public/default dependency graph
-        run: cargo metadata --locked --no-deps >/dev/null
-      - name: Format
+      - name: Format repository Rust
         run: cargo fmt --all -- --check
-      - name: Check public core without private server adapters
-        run: cargo check --locked --no-default-features
-      - name: Test default public core
-        run: cargo test --locked
+      - name: Verify public lock dependency stays non-recursive
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'ores-locks-and-leases = { git = "https://github.com/ORESoftware/ores-locks-and-leases.git", rev = "e752dd983cfc5a5107396d1fb9ac192fa72270b1", default-features = false }' Cargo.toml
+          ! grep -F 'features = ["fiducia"]' Cargo.toml
+      - name: Build exact-source lock facade harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          harness="$RUNNER_TEMP/fiducia-lock-facade"
+          mkdir -p "$harness/src"
+          cp src/locks.rs "$harness/src/lib.rs"
+          cat > "$harness/Cargo.toml" <<'EOF'
+          [package]
+          name = "fiducia-lock-facade-boundary"
+          version = "0.0.0"
+          edition = "2021"
+
+          [dependencies]
+          ores-locks-and-leases = { git = "https://github.com/ORESoftware/ores-locks-and-leases.git", rev = "e752dd983cfc5a5107396d1fb9ac192fa72270b1", default-features = false }
+          EOF
+          cargo generate-lockfile --manifest-path "$harness/Cargo.toml"
+          cargo clippy --locked --manifest-path "$harness/Cargo.toml" --all-targets -- -D warnings
+          cargo test --locked --manifest-path "$harness/Cargo.toml"
+
+      # The repository's existing full CI remains the fail-closed gate for
+      # private server adapters (ores-rl-lib-core, middleware, etc.). This lane
+      # deliberately proves only the changed public lock facade without adding
+      # credentials or weakening that private-dependency boundary.
