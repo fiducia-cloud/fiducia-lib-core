@@ -6,7 +6,7 @@
 //! leases with Cloudflare Durable Objects so the system does not recursively
 //! require Fiducia merely to coordinate Fiducia startup/recovery work.
 
-use ores_locks_and_leases::LockKey;
+pub use ores_locks_and_leases::LockKey;
 
 const PREFIX: &str = "fiducia-cloud";
 
@@ -56,5 +56,11 @@ mod tests {
             singleton_job("membership-repair").as_str(),
             "fiducia-cloud/jobs/singleton:membership-repair"
         );
+    }
+
+    #[test]
+    fn lock_key_is_part_of_the_facade() {
+        let key: LockKey = migration("facade-proof");
+        assert_eq!(key.as_str(), "fiducia-cloud/migrations/facade-proof");
     }
 }
