@@ -2,6 +2,7 @@
 org = "fiducia-cloud"
 name = "fiducia-lib-core"
 version = "0.2.0"
+kind = "lib"
 description = "Shared Fiducia service policy, configuration, middleware, and rate-limit integration"
 keywords = ["configuration", "middleware", "interfaces", "rate-limit", "zed-pkg"]
 
