@@ -16,7 +16,9 @@ fn parallel_decisions(capacity: u64, contenders: usize) -> (usize, usize) {
         let start = start.clone();
         workers.push(thread::spawn(move || {
             start.wait();
-            limiter.decide_at(0, 1).expect("valid fixed-window transition")
+            limiter
+                .decide_at(0, 1)
+                .expect("valid fixed-window transition")
         }));
     }
     start.wait();
