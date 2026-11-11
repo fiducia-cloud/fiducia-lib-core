@@ -1,0 +1,32 @@
+name: Rate-limit refinement source gate (not implementation tests)
+on:
+  pull_request:
+    paths:
+      - 'tests/formal_rate_limit_refinement.rs'
+      - '.github/workflows/rate-limit-refinement-source.yml'
+      - 'server/platform.rs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-admission:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify checked-out bytes are exact PR head
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          for path in server/platform.rs tests/formal_rate_limit_refinement.rs; do
+            test ! -L "$path"
+            test -f "$path"
+            test "$(git hash-object --no-filters "$path")" = "$(git rev-parse "HEAD:$path")"
+          done
+      - name: Parse and format-check refinement cases (not execution)
+        run: rustfmt --edition 2021 --check tests/formal_rate_limit_refinement.rs
