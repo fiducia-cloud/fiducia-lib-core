@@ -42,6 +42,8 @@ jobs:
           tmp/formal-safety/check --nocapture --test-threads=1
   runtime-refinement:
     needs: finite-model
+    # Never grant repository secrets to forked pull-request source trees.
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -49,6 +51,37 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - name: Configure scoped read-only dependency access
+        shell: bash
+        env:
+          VERIFICATION_READ_TOKEN: ${{ secrets.FLEET_GITHUB_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${VERIFICATION_READ_TOKEN:-}" ]]; then
+            echo "BLOCKED: FLEET_GITHUB_READ_TOKEN not configured; cannot run production Cargo tests against pinned private dependencies" >&2
+            exit 1
+          fi
+          echo "::add-mask::$VERIFICATION_READ_TOKEN"
+          umask 077
+          token_file="$(mktemp "$RUNNER_TEMP/formal-dependency-token.XXXXXX")"
+          askpass_file="$(mktemp "$RUNNER_TEMP/formal-git-askpass.XXXXXX")"
+          printf '%s' "$VERIFICATION_READ_TOKEN" > "$token_file"
+          cat > "$askpass_file" <<'EOS'
+          #!/bin/sh
+          set -eu
+          case "${1:-}" in
+            *Username*) printf '%s\n' x-access-token ;;
+            *Password*) cat "$FORMAL_TOKEN_FILE" ;;
+            *) exit 1 ;;
+          esac
+          EOS
+          chmod 700 "$askpass_file"
+          {
+            echo "FORMAL_TOKEN_FILE=$token_file"
+            echo "GIT_ASKPASS=$askpass_file"
+            echo "GIT_TERMINAL_PROMPT=0"
+            echo "CARGO_NET_GIT_FETCH_WITH_CLI=true"
+          } >> "$GITHUB_ENV"
       - name: Execute production concurrent rate-limit refinement at the exact PR head
         shell: bash
         env:
@@ -58,3 +91,8 @@ jobs:
           test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
           cargo --version
           cargo test --features server --lib server::platform::tests:: -- --nocapture
+      - name: Scrub scoped dependency credentials
+        if: always()
+        shell: bash
+        run: |
+          rm -f "${FORMAL_TOKEN_FILE:-}" "${GIT_ASKPASS:-}"
