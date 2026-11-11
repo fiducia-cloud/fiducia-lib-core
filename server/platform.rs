@@ -222,4 +222,47 @@ mod tests {
             Decision::Deny { .. }
         ));
     }
+    #[test]
+    fn real_concurrent_admission_has_one_linearized_winner() {
+        use std::sync::{Arc, Barrier};
+        use std::thread;
+
+        // All requests consume one unit in the same fixed window. The
+        // production decide_at method must keep read/decide/commit under one
+        // mutex; it is not enough for the abstract checker alone to pass.
+        const CALLERS: usize = 32;
+        let limiter = Arc::new(SharedRateLimiter::new(LimitPolicy::fixed_window(1, 60_000)));
+        let barrier = Arc::new(Barrier::new(CALLERS + 1));
+        let mut threads = Vec::new();
+        for _ in 0..CALLERS {
+            let limiter = limiter.clone();
+            let barrier = barrier.clone();
+            threads.push(thread::spawn(move || {
+                barrier.wait();
+                limiter.decide_at(1, 1).expect("valid rate-limit transition")
+            }));
+        }
+        barrier.wait();
+        let mut allowed = 0;
+        let mut denied = 0;
+        for handle in threads {
+            match handle.join().expect("admission thread") {
+                Decision::Allow { .. } => allowed += 1,
+                Decision::Deny { .. } => denied += 1,
+                Decision::Bypass { .. } => panic!("fixed-window policy bypassed quota"),
+            }
+        }
+        assert_eq!(allowed, 1, "capacity-one window overadmitted");
+        assert_eq!(denied, CALLERS - 1);
+        assert!(matches!(limiter.decide_at(2, 1).unwrap(), Decision::Deny { .. }));
+    }
+
+    #[test]
+    fn cloned_limiter_handles_share_the_same_quota_authority() {
+        let limiter = SharedRateLimiter::new(LimitPolicy::fixed_window(1, 60_000));
+        let clone = limiter.clone();
+        assert!(matches!(clone.decide_at(0, 1).unwrap(), Decision::Allow { .. }));
+        assert!(matches!(limiter.decide_at(1, 1).unwrap(), Decision::Deny { .. }));
+    }
+
 }
