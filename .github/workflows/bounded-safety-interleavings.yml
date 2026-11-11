@@ -40,6 +40,24 @@ jobs:
           rustc --version
           rustc --edition=2021 --test -D warnings formal/safety-interleavings/check.rs -o tmp/formal-safety/check
           tmp/formal-safety/check --nocapture --test-threads=1
+  source-format:
+    needs: finite-model
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Check Rust formatting at the exact source head without private dependencies
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          rustfmt --version
+          cargo fmt --all -- --check
   runtime-refinement:
     needs: finite-model
     # Never grant repository secrets to forked pull-request source trees.
