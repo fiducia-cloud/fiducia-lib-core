@@ -239,7 +239,9 @@ mod tests {
             let barrier = barrier.clone();
             threads.push(thread::spawn(move || {
                 barrier.wait();
-                limiter.decide_at(1, 1).expect("valid rate-limit transition")
+                limiter
+                    .decide_at(1, 1)
+                    .expect("valid rate-limit transition")
             }));
         }
         barrier.wait();
@@ -254,15 +256,24 @@ mod tests {
         }
         assert_eq!(allowed, 1, "capacity-one window overadmitted");
         assert_eq!(denied, CALLERS - 1);
-        assert!(matches!(limiter.decide_at(2, 1).unwrap(), Decision::Deny { .. }));
+        assert!(matches!(
+            limiter.decide_at(2, 1).unwrap(),
+            Decision::Deny { .. }
+        ));
     }
 
     #[test]
     fn cloned_limiter_handles_share_the_same_quota_authority() {
         let limiter = SharedRateLimiter::new(LimitPolicy::fixed_window(1, 60_000));
         let clone = limiter.clone();
-        assert!(matches!(clone.decide_at(0, 1).unwrap(), Decision::Allow { .. }));
-        assert!(matches!(limiter.decide_at(1, 1).unwrap(), Decision::Deny { .. }));
+        assert!(matches!(
+            clone.decide_at(0, 1).unwrap(),
+            Decision::Allow { .. }
+        ));
+        assert!(matches!(
+            limiter.decide_at(1, 1).unwrap(),
+            Decision::Deny { .. }
+        ));
     }
 
 }
