@@ -1,0 +1,636 @@
+{
+  "schema_version": 1,
+  "classification": "local-verified-snapshot-build",
+  "source": {
+    "repository": "fiducia-cloud/fiducia-lib-core",
+    "commit": "9dc68d7eb060eac57bfddb2a28e4cf471df32b9f"
+  },
+  "toolchain": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+  "dependency_commits": {
+    "fiducia-cloud/fiducia-interfaces": "51773bf0df86bbfa96979ce7a69944543e2c1b33",
+    "ORESoftware/ores-middleware": "3d0f6f56051fe9f9303e703477c5ad591d402b26",
+    "ores-rate-limit/ores-rl-lib-core": "31df606d26280611e2d2d684328a804644eb4255",
+    "ores-otel/ores.otel.log": "b55271c047be761c4711d87cbd500a49eefda3d9"
+  },
+  "verified_git_blobs": [
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": ".cli-flags.toml",
+      "sha": "f698d5f46eefb203b536d96c50832c4188d2d19c"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": ".gitignore",
+      "sha": "e700c1eaa1ed67a85dd5e33fa1203da20da62c20"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": ".zpkg.toml",
+      "sha": "f96906fb435a39c4d5167458d042171aa1bd0807"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "AGENTS.md",
+      "sha": "42493720d23db14508e68c59ed4f73b9c9402276"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "Cargo.toml",
+      "sha": "b8ba9cfffb08770a98bd25ebcb8fc608cc594890"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "REFINEMENT.md",
+      "sha": "0ae5fc3187330f71048fbb6981896ef2c84c378c"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "client/mod.rs",
+      "sha": "0839fc6652d198924e3f789907bdd70fa40045e0"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "README.md",
+      "sha": "92c7a84b62bf7278d9fdc9cb3325a3f221b32f21"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "contract-admission/contract-ir-consumer.json",
+      "sha": "723a4af59b12e2c6a8257254b7af79d8eaa46ebc"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "isomorph/mod.rs",
+      "sha": "0417c6b6cf86d71366e796bb567aa26d4c37af7d"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "formal/safety-interleavings/README.md",
+      "sha": "8f38c6e2032bcc4b57cc6ab70f0dcd853070e401"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "platform-integrations.json",
+      "sha": "0679038367f0f9087eabafca73e01dec17ed3d4a"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "edge/mod.rs",
+      "sha": "bf456ecc53e5ae646bb6e45675b91c0a694100c9"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "server/mod.rs",
+      "sha": "fcdd944a65958a1d4106903b8a63444b7df237b6"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "formal/safety-interleavings/check.rs",
+      "sha": "52773a7251b19f2d11d5d88f63b2007f5390687e"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "test/fixtures/schema-authority-canary/README.md",
+      "sha": "b68cfc2592c683dec5a0d7e416da38deeb0a0970"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "src/lib.rs",
+      "sha": "5109876544963c3bec5f85f15d638d8302dfaf83"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "server/rate_limiter.rs",
+      "sha": "84b7a95b0565282eef036d9e430ffbd162465dd7"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "test/fixtures/schema-authority-canary/authored.schema.json",
+      "sha": "ed997591f45b86eb194870923c2a50d55c334249"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "server/platform.rs",
+      "sha": "589bee3c8e74b748844480fb88c7d4a7ab367fb2"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "src/config.rs",
+      "sha": "e16cc985d0cc129e54d384e244e0a4e69af1caa7"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "test/fixtures/schema-authority-canary/check-stale-mapping-receipt.mjs",
+      "sha": "1c0b57c6ce290ec3801c071228fc368be88bb6ec"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "test/fixtures/schema-authority-canary/stale.mapping.json",
+      "sha": "c100e09d00320920efa0641664bd4ecadafcf155"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "test/fixtures/schema-authority-canary/main.tsp",
+      "sha": "01c531c8b392c4cf098f7eb28485ba0dd4a03ecc"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-lib-core",
+      "path": "zed-env.toml",
+      "sha": "bf6c6151684c9bd87ac38996fe0612f3ec5d028b"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "AGENTS.md",
+      "sha": "b69b5ec812675cc2d200a4024376ce4feb8fb8d3"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/src/lib.rs",
+      "sha": "c8c03d9f0ea8bc750087b9652f0fc1ddc36068e1"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "Cargo.toml",
+      "sha": "24aec879ffc3f8afa87e1c0f93ed60bde2b60cc1"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/src/README.md",
+      "sha": "6efa9d294854274abc1172573f7cb99cb6204cf5"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/Cargo.toml",
+      "sha": "b9685e660eace10103da4e83bc8fe1942a3b008e"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/README.md",
+      "sha": "83ba8e91addf567bd5f7ae131315e9eb89b00d8a"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/src/validation.rs",
+      "sha": "954d689a69f0ab1b4a20cf8b760056f46b8a1385"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/tests/README.md",
+      "sha": "28c5a2fa004229b1c3f0f9dc21243d84a6acbda6"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/tests/lock_payloads.rs",
+      "sha": "7877bae0e1a55c518004959696e1ee4743f2eba7"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "Cargo.toml",
+      "sha": "b61b76cf8b510740990ffc80d88aa42b318a27a7"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "AGENTS.md",
+      "sha": "251522ae945f5a917e13ee0e2d623d81d4516279"
+    },
+    {
+      "repo": "fiducia-cloud/fiducia-interfaces",
+      "path": "generated/rust/tests/schema_validation.rs",
+      "sha": "a0d643a8b160d86318ee16251fcd12dbb85f9b83"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/Cargo.toml",
+      "sha": "bec35995b50185a272a67f7fbf2622d39a987788"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/adapter.manifest.json",
+      "sha": "340013eaf9d98f85a97f51551e63961d40625d1b"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/bin/contractcheck.rs",
+      "sha": "8774ee5999f68be94703a0cfb523fec19604a234"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/config.rs",
+      "sha": "36667c4ab2dd5d1ca947f7ae9c29bd2b8b30c6ff"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/compat.rs",
+      "sha": "085111139ae3f35dbc2416f2cc40045cd5e4388f"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/bootstrap.rs",
+      "sha": "b00ed13666afb0556c494a31f41dcb7f749c383c"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/context.rs",
+      "sha": "ab3f9d634022acd0adc0a0598614733587fb851c"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/frameworks/axum_audit.rs",
+      "sha": "698c5c1128e538f6f32f8ecb9a4ac492fcb44da6"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/frameworks/axum.rs",
+      "sha": "473c0f8d688b1f4c2755d99613a07e2d51cf318f"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/frameworks/mash.rs",
+      "sha": "546856b8a23c430322cfb7b9db35cbbf2a0187a5"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/docs_serving.rs",
+      "sha": "7f4b2eaa3e1571f4deea09692f9a13e153dead1c"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/frameworks/dioxus.rs",
+      "sha": "89cda983af5eef850b0c0604b9ce81a56a750f84"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/frameworks/leptos.rs",
+      "sha": "2b5b6c2885ae6cf9d314a8593e788e9e4c84c4aa"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/operation.rs",
+      "sha": "592bc5470aec9ac1ef0d28bce637e4b12e6fbc76"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/integrations.rs",
+      "sha": "11098f7f2ec307d53d39a85effd1cc8e92600abf"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/frameworks/mod.rs",
+      "sha": "98f236ef3846b4fe092f4987b1730bcb91f85222"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/net.rs",
+      "sha": "a08c0c6889a5336aa87bebadf3590092d296cffc"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/middleware_order.rs",
+      "sha": "60ccf02b551de0b3856b0ff099421ce84b69dc63"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/lib.rs",
+      "sha": "23b82b7331f1c0f3d8559bb0267def9dd32baefd"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/tests/rate_limit_authorization_outage.rs",
+      "sha": "3f37014ce015e268a767d1a285ba81f4f5113109"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/tests/otel_adversarial.rs",
+      "sha": "3c1dedcfcb4d4bb151431fdbc6672f1820ea998e"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/pipeline.rs",
+      "sha": "832ccc80c16b0c0161ceff3ff8c8d8a1c7ddd604"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/rate_limit_v2.rs",
+      "sha": "368e5d13dca61edc37bc19c164faf2ed90f1d548"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/otel.rs",
+      "sha": "ee0df984c33fad27304f1613784f00550714f1f6"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/src/rate_limit.rs",
+      "sha": "6231fb0133dfb1dadaa14a3726b45599f0c7e9d5"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "tools/middleware-adversarial-runner/src/main.rs",
+      "sha": "9a2b1769805f8f8f2f834325ad9010ae8554905f"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "tools/middleware-adversarial-runner/Cargo.toml",
+      "sha": "e97728a89239d258c67459c666fdfe0c236efb8e"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": ".zpkg.lock",
+      "sha": "d9914dfa61771d8523ac1bb864d520ea0f33303a"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": ".gitignore",
+      "sha": "c0744d1ea982e3af1e9d315925dd535deaa24984"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": ".zpkg.toml",
+      "sha": "5728363e0b7abbfb734d8285a6687ea31e7ef656"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "README.md",
+      "sha": "733746a41cac9bc9e0addb996ae2fbd9271f217e"
+    },
+    {
+      "repo": "ORESoftware/ores-middleware",
+      "path": "src/rust/tests/rate_limit_state_machine.rs",
+      "sha": "e85a342c0db0ea5eaa5a372dde09db52bca88f93"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "action.yml",
+      "sha": "663cb7342d423f1a87d06a9c9cf21cfbc0ab46d4"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "AGENTS.md",
+      "sha": "81cf2d55ad3223f8a6efacdc46d33e7758c5dc5e"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "Cargo.toml",
+      "sha": "0eb4ba5c9b37856a109fb69c332d6ee244950d82"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "client/README.md",
+      "sha": "ffa13879033313364ec9bbb53fd9f0fb9a9e4f5e"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "contracts/authorities/typespec/rate-limit-policy.v2.tsp",
+      "sha": "c5ebd8602828899174071ee054d6ac5b0d6dbc5e"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "contracts/authorities/json-schema/rate-limit-policy.v2.schema.json",
+      "sha": "60f29b01d41b3b0f8ac586bcfe31171b8a36577b"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "contracts/core-generation.json",
+      "sha": "bfab5fe72e6ea4ee3eddcf06298d88d6ca721ff3"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "edge/README.md",
+      "sha": "75142602dd7ee5dea6396cd6d03ef3869421e571"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "docs/core-repository-boundary.md",
+      "sha": "0473f1f61b7e365c8dd347f51953dd72ae1e9d98"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "formal/AlgorithmDispatch.cfg",
+      "sha": "75069f6a9d9486e4bb612a4776ab998918bc2511"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "formal/RateLimiter.cfg",
+      "sha": "e37c44b8511e03eed4d691ef0cdc86e8b5156db3"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "formal/AlgorithmDispatch.tla",
+      "sha": "027f74946debd05c9022db728fd82581a71ae44f"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "formal/RateLimiter.tla",
+      "sha": "d9619838f10d141893477b87a6a7af398b09c095"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "isomorph/README.md",
+      "sha": "2a12ef1d933db51a6383eca5e8c9bc742f8ac8d0"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "generated/json-schema/shared-policy-manifest.json",
+      "sha": "8f396d0110f98a60d70c36f0c6e838a24923f766"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "generated/typespec/shared-policy-manifest.json",
+      "sha": "8f396d0110f98a60d70c36f0c6e838a24923f766"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "generated/finalized/shared-policy-manifest.json",
+      "sha": "8f396d0110f98a60d70c36f0c6e838a24923f766"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "isomorph/generated/rate-limit-policy.v2.manifest.json",
+      "sha": "8f396d0110f98a60d70c36f0c6e838a24923f766"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "generated/parity-receipt.json",
+      "sha": "c0d35e02be350855c0f6defdb51aa9ceaa432adb"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "scripts/recover_zed_v0_1_0.sh",
+      "sha": "47bde533a4ebf2b60c7321cc339d80d790684ee0"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/cache.rs",
+      "sha": "e9d4042597fd38b76cda688aa2b90cdb692e4d66"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "scripts/test_release_recovery.py",
+      "sha": "f88c13693e1ce1ec63dd17e8e8c9d8afb87c017d"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/backend.rs",
+      "sha": "99f73189c1d8ef61e6ebc404bc5ad599669ea24a"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "server/README.md",
+      "sha": "aeae202b4ea1695da82dad6bf5b9ce4dc01acf1a"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "scripts/check_release_recovery.py",
+      "sha": "c3ba3d92673783afacea18aea30bda4d9b1b695d"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/lib.rs",
+      "sha": "b9dfb3fe8483f6748c88bbf5f8580d67b9f8f353"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/model.rs",
+      "sha": "99aa138be56231e9f9e0dd0f120fae03f757a2c2"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/key.rs",
+      "sha": "d7783a8af87c9c31697fa88112fb505a3eb4273c"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/distributed.rs",
+      "sha": "7b5f157f447ae4a9cdd4c8e5374541e508f64388"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/redis_key.rs",
+      "sha": "53ad8912ce1ad4935a237a5e119b1929757b6237"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/limiter.rs",
+      "sha": "cc71e9628108d84fd526cd405fda122816b9aa35"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/redis_store.rs",
+      "sha": "c9f3329ca4ee9c3f2ac1f7f1e86b0e91588d7a84"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "src/telemetry.rs",
+      "sha": "8294019dce49156abcc5ac9006627d4e41fbd650"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "tests/gcra_boundaries.rs",
+      "sha": "1fa728bfd3afbffa92a5ad5e61767b1e098cc4f5"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "tests/exhaustive_algorithms.rs",
+      "sha": "a4342dbc91a64c97f1949d65bf78d77d6c495805"
+    },
+    {
+      "repo": "ores-rate-limit/ores-rl-lib-core",
+      "path": "tests/redis_integration.rs",
+      "sha": "feb2f67fd2cbc1606b06bbe815de9946f29c7bea"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/.zpkg-smoke.sh",
+      "sha": "5004fb3bb6bacb708261ff6fd09df8d4c3113631"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/Cargo.lock",
+      "sha": "057b2a6ead1dc1c6e31abe7966ce61b2279bbacb"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/LICENSE",
+      "sha": "b2482bd082311f7c5dff58a192aba1e303def07e"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/.r2g/skeletons/rust/src/main.rs",
+      "sha": "9408c8ee4b4070135db254e55a798e6f706c3a26"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/README.md",
+      "sha": "580dc0dffb7c665eb9abff0de6a373581c6512fc"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/Cargo.toml",
+      "sha": "17da76187681456a281a22120f6bc5eaa51a977e"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "Cargo.toml",
+      "sha": "f39d5480f799de2f91aa0ad0f675ad4758a968cb"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/src/context.rs",
+      "sha": "33ae1131e5c7f09284f0a065aa7d2425fd9a3d3b"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/src/lib.rs",
+      "sha": "46ed524cec17937ac437bf83efd0cb9e53e7b68a"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/src/span.rs",
+      "sha": "7f3e3bc5b543d83d47638a6bbd536353074f158f"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/src/shutdown.rs",
+      "sha": "8650ad00fb321dd760aa43975cbf9220b8da8a14"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/src/core.rs",
+      "sha": "c0abb6559848644c5ad8de0d23b6aaa06b66c597"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/tests/conformance.rs",
+      "sha": "b7936d1eee6e6d15e0caa2679f1ae3be35cd3b5d"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/tests/context.rs",
+      "sha": "c01861fb0eae023ffeaa17615331d7f86bc8344b"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/tests/shutdown_model.rs",
+      "sha": "0ef1b5b3c54a447f338e43e2c36e243f30eb2ca6"
+    },
+    {
+      "repo": "ores-otel/ores.otel.log",
+      "path": "sdk/rust/tests/span.rs",
+      "sha": "e043ff8e63026bda9e81bd3dbac558f8d76ee75b"
+    }
+  ],
+  "results": "11 all-feature tests; documentation target contains zero tests",
+  "failures": 0,
+  "ignored_tests": 0,
+  "log_sha256": {
+    "full-vendored": "f3f23654d3221ff93a942a50c06f350ec17556eb579e36aa4350e0b8cfea63ce",
+    "doc": "9d8cd92ec62bb75abdd8e20be939d8a0babcf2287ee52e19ae9d01bf49ac66d9"
+  },
+  "limitations": [
+    "Not a GitHub Actions attestation",
+    "Local Cargo manifest copies redirect exact git revisions to blob-verified dependency paths",
+    "Registry packages resolved freshly; generated lockfile is retained alongside this report",
+    "Production Git manifests unchanged",
+    "No receipt authenticity or unbounded correctness proof"
+  ]
+}
