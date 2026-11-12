@@ -4,12 +4,7 @@
 //! limiter is installed in audit mode because the authoritative admission state
 //! below is implemented by `ores-rate-limit/ores-rl-lib-core`.
 
-use std::{
-    any::type_name,
-    fmt,
-    sync::{Arc, Mutex},
-    time::Instant,
-};
+use std::any::type_name;
 
 use axum::{
     extract::{Request, State},
@@ -19,38 +14,13 @@ use axum::{
     Router,
 };
 use ores_middleware::{default_config, descriptor, RuntimeEnvironment};
-use ores_rl_lib_core::{
-    transition, ConsistencyMode, Decision, LimitPolicy, LimitState, TransitionError,
-};
+use ores_rl_lib_core::{ConsistencyMode, Decision, LimitPolicy};
 
 use crate::config::ServiceRole;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum PlatformError {
-    Middleware(String),
-    RateLimit(String),
-    PoisonedRateLimitState,
-}
-
-impl fmt::Display for PlatformError {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::Middleware(message) => write!(formatter, "middleware policy error: {message}"),
-            Self::RateLimit(message) => write!(formatter, "rate-limit policy error: {message}"),
-            Self::PoisonedRateLimitState => {
-                formatter.write_str("rate-limit state lock is poisoned")
-            }
-        }
-    }
-}
-
-impl std::error::Error for PlatformError {}
-
-impl From<TransitionError> for PlatformError {
-    fn from(value: TransitionError) -> Self {
-        Self::RateLimit(value.to_string())
-    }
-}
+#[path = "rate_limiter.rs"]
+mod rate_limiter;
+pub use rate_limiter::{PlatformError, SharedRateLimiter};
 
 /// Immutable dependency and policy evidence shared by all four standard
 /// Fiducia Rust servers.
@@ -79,48 +49,6 @@ impl ServiceProfile {
             middleware_capabilities: middleware.capabilities,
             rate_limit_policy,
         })
-    }
-}
-
-#[derive(Clone)]
-pub struct SharedRateLimiter {
-    policy: LimitPolicy,
-    state: Arc<Mutex<LimitState>>,
-    started_at: Instant,
-}
-
-impl fmt::Debug for SharedRateLimiter {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        formatter
-            .debug_struct("SharedRateLimiter")
-            .field("policy", &self.policy)
-            .finish_non_exhaustive()
-    }
-}
-
-impl SharedRateLimiter {
-    #[must_use]
-    pub fn new(policy: LimitPolicy) -> Self {
-        Self {
-            policy,
-            state: Arc::new(Mutex::new(LimitState::Empty)),
-            started_at: Instant::now(),
-        }
-    }
-
-    pub fn decide_at(&self, now_ms: u64, cost: u64) -> Result<Decision, PlatformError> {
-        let mut state = self
-            .state
-            .lock()
-            .map_err(|_| PlatformError::PoisonedRateLimitState)?;
-        let (next, decision) = transition(self.policy, *state, now_ms, cost)?;
-        *state = next;
-        Ok(decision)
-    }
-
-    fn decide(&self, cost: u64) -> Result<Decision, PlatformError> {
-        let now_ms = u64::try_from(self.started_at.elapsed().as_millis()).unwrap_or(u64::MAX);
-        self.decide_at(now_ms, cost)
     }
 }
 
