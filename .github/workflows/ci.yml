@@ -9,6 +9,21 @@ permissions:
   contents: read
 
 jobs:
+  config-unit:
+    name: Dependency-free runtime configuration tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Install pinned stable Rust
+        run: rustup toolchain install 1.100.0 --profile minimal
+      - name: Compile and execute the configuration module
+        run: |
+          rustc +1.100.0 --edition=2021 --test -D warnings src/config.rs -o "$RUNNER_TEMP/config-tests"
+          "$RUNNER_TEMP/config-tests"
+
   rust:
     runs-on: ubuntu-latest
     timeout-minutes: 20
