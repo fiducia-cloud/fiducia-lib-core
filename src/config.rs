@@ -255,6 +255,65 @@ mod tests {
     }
 
     #[test]
+    fn database_requirement_matches_target_and_role_matrix() {
+        for target in ["server", "edge", "lambda", "desktop", "cli"] {
+            for role in ["api", "web", "admin-api", "admin-web", "worker"] {
+                let mut map = base();
+                map.insert("FIDUCIA_RUNTIME_TARGET".into(), target.into());
+                map.insert("FIDUCIA_SERVICE_ROLE".into(), role.into());
+                let requires_db = matches!(target, "server" | "lambda")
+                    && matches!(role, "api" | "admin-api" | "worker");
+                let without_db = RuntimeConfig::from_map(&map);
+                if requires_db {
+                    assert_eq!(
+                        without_db.unwrap_err(),
+                        ConfigError::Missing("FIDUCIA_DATABASE_URL"),
+                        "{target}/{role}"
+                    );
+                } else {
+                    assert!(
+                        without_db.unwrap().private.database_url.is_none(),
+                        "{target}/{role}"
+                    );
+                }
+
+                map.insert("FIDUCIA_DATABASE_URL".into(), "postgres://synthetic".into());
+                let with_db = RuntimeConfig::from_map(&map);
+                if target == "edge" {
+                    assert!(matches!(
+                        with_db,
+                        Err(ConfigError::Invalid {
+                            key: "FIDUCIA_DATABASE_URL",
+                            ..
+                        })
+                    ));
+                } else {
+                    assert!(
+                        with_db.unwrap().private.database_url.is_some(),
+                        "{target}/{role}"
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn blank_required_auth_values_are_missing() {
+        for key in [
+            "FIDUCIA_AUTH_ISSUER",
+            "FIDUCIA_AUTH_AUDIENCE",
+            "FIDUCIA_AUTH_JWKS_URL",
+        ] {
+            let mut map = base();
+            map.insert(key.into(), " \t\n".into());
+            assert_eq!(
+                RuntimeConfig::from_map(&map).unwrap_err(),
+                ConfigError::Missing(key)
+            );
+        }
+    }
+
+    #[test]
     fn secrets_are_redacted_in_debug() {
         let mut m = base();
         m.insert(
